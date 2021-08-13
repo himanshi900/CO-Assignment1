@@ -319,7 +319,7 @@ if flag == False:
 
 if Lines.count("hlt") > 1 and flag1==False:
 	#print('0 or >1') ###########################################################
-	cou = allLines.index("hlt") + 1
+	cou = len(allLines) - allLines[::-1].index('hlt')
 	err = "ERROR in line {}: hlt instruction used more than once".format(cou)
 	print(err)
 	exit()
