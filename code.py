@@ -150,10 +150,9 @@ def instruction_call(arr):
 
 	elif (arr[0][-1]==':' ):
 		arr.pop(0)
-		if arr != []:
-			instruction_call(arr)
-		else:
-			return
+		instruction_call(arr)
+		
+			
 
 	
 
