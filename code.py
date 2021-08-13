@@ -3,6 +3,7 @@ import os
 
 
 Lines = []
+allLines = []
 output = []
 from sys import stdin
 
@@ -37,7 +38,8 @@ def instruction_call(arr):
 		d = encodeA(arr[3])
 		if(b=='-1' or c=='-1' or d=='-1'):
 			#clear()
-			print("Wrong syntax in type A")
+			arr = "ERROR in line {} Wrong syntax in type A".format(count)
+			print(err)
 			exit()
 		else:
 			out=(a+"00"+b+c+d)
@@ -125,12 +127,8 @@ def instruction_call(arr):
 		a=dic.get(arr[0])
 		b=dictLabel.get(arr[1])
 		b3=(bin(b))[2:]
-		
 		b4=b3.zfill(8)
-		
-		
-		
-		
+
 		##b2=bin(int(str1[1:]))[2:]
 		#txt1 = b2.zfill(8)
 					
@@ -148,11 +146,10 @@ def instruction_call(arr):
 		out=(a + "00000000000")
 		output.append(out)
 
-	elif (arr[0][-1]==':' ):
+	elif (arr[0][-1]==':'):
 		arr.pop(0)
 		instruction_call(arr)
 		
-			
 
 	
 
@@ -176,11 +173,15 @@ def bnr(a):
 
 def variable_value(x):
 	a=int(indexHalt)
-	b=listVar.index(x)
-	k=a+b+1
-	ans=bin(k)[2:]
-	ans1=(str(ans)).zfill(8)
-	return ans1
+	if(listVar.count(x) == 1):
+		b=listVar.index(x)
+		k=a+b+1
+		ans=bin(k)[2:]
+		ans1=(str(ans)).zfill(8)
+		return ans1
+	else:
+		print("ERROR: ")
+		exit()
 
 arr=[]
 def encode(a):
@@ -249,12 +250,14 @@ def encodeA(a):
 		return -1
 
 for line in stdin:
-	line = line.strip()
 	if line == '':
 		break
-	Lines.append(line)
-
-
+	if line == "\n":
+		allLines.append(line)
+	else :
+		line = line.strip()
+		allLines.append(line)
+		Lines.append(line)
 
 #print(Lines)
 
@@ -271,7 +274,9 @@ for line in Lines:
 		listVar.append(line[4:])
 		countVar += 1
 		if countVar<count:
-			flag = False
+			cou = allLines.index(line) + 1
+			err = "ERROR in line {} Variable not declared at the beginning".format(cou)
+			print(err)
 			break
 	elif line[0:3] == "var" and listVar.count(line[4:]) != 0:
 		flag = False
@@ -286,7 +291,7 @@ if(arr1[0][-1]==':' and arr1[-1]=='hlt' and arr1[1]=='hlt'):
 	str1=''
 	for e in Lines[-1]:
 		str1+=e
-	indexHalt = Lines.index(str1) -countVar
+	indexHalt = Lines.index(str1) - countVar
 	
 #print('hello') ###########################################################3
 if flag == False:
@@ -297,7 +302,6 @@ if flag == False:
 if Lines.count("hlt") > 1 or Lines.count("hlt") == 0 and flag1==False:
 	#print('0 or >1') ###########################################################
 	flag = False
-
 	exit()
 
 if(Lines.count("hlt") != 0):
@@ -322,17 +326,27 @@ elif flag == True:
 				flag = False
 			count += 1
 
+count1 = 0
+Lines1 = []
 if flag == False:
 	#Error message
 	print("ERROR:flag false ")
 	exit()
 
-elif flag == True:
 
-	for line in Lines:
-		if line[0:3] != "var":
-			line = line.strip()
-			arr = line.split()
-			instruction_call(arr)
-	for i in output:
-		print(i)
+
+
+for line in Lines:
+	if line == "\n":
+		count1+=1
+		continue
+	elif line[0:3] != "var":
+		line = line.strip()
+		arr = line.split()
+		instruction_call(arr)
+		count1+=1
+	elif line[0:3] == "var":
+		count1 += 1
+
+for i in output:
+	print(i)
