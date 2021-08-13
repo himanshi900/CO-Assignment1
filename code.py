@@ -38,7 +38,7 @@ def instruction_call(arr):
 		d = encodeA(arr[3])
 		if(b=='-1' or c=='-1' or d=='-1'):
 			#clear()
-			arr = "ERROR in line {} Wrong syntax in type A".format(count)
+			err = "ERROR in line {} Wrong syntax in type A".format(count)
 			print(err)
 			exit()
 		else:
