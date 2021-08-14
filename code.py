@@ -189,6 +189,15 @@ def variable_value(x):
 		print(err)
 		exit()
 
+def checkName(a) :
+	s = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_1234567890"
+	if (a[0] not in s):
+		return False
+	else:
+		if(len(a) > 1):
+			return checkName(a[1:])
+		elif(len(a) == 1):
+			return True
 
 arr=[]
 def encode(a):
@@ -277,19 +286,33 @@ indexHalt = 0
 for line in Lines:
 	line = line.strip()
 	count+=1
-	if line[0:3] == "var" and len(line) > 3 and listVar.count(line[4:]) == 0:
-		listVar.append(line[4:])
-		countVar += 1
-		if countVar<count:
+	if line[0:3] == "var":
+		aaa = line.split()
+		if(len(aaa) == 2 and listVar.count(aaa[1])==0):
+			t3 = checkName(aaa[1])
+			if(t3 == True):
+				listVar.append(aaa[1])
+				countVar += 1
+				if countVar<count:
+					cou = allLines.index(line) + 1
+					err = "ERROR in line {}: Variable not declared at the beginning".format(cou)
+					print(err)
+					exit()
+			else:
+				cou = allLines.index(line) + 1
+				err = "ERROR in line {}: Syntax error".format(cou)
+				print(err)
+				exit()
+		elif len(aaa) == 2 and listVar.count(aaa[1]) != 0:
 			cou = allLines.index(line) + 1
-			err = "ERROR in line {}: Variable not declared at the beginning".format(cou)
+			err = "ERROR in line {}: Variable already defined".format(cou)
 			print(err)
 			exit()
-	elif line[0:3] == "var" and listVar.count(line[4:]) != 0:
-		cou = allLines.index(line) + 1
-		err = "ERROR in line {}: Variable already defined".format(cou)
-		print(err)
-		exit()
+		elif len(aaa) > 2:
+			cou = allLines.index(line) + 1
+			err = "ERROR in line {}: Variable not properly defined".format(cou)
+			print(err)
+			exit()
 	elif line[0:3] == "var" and len(line) == 3:
 		cou = allLines.index(line) + 1
 		err = "ERROR in line {}: Variable not properly defined".format(cou)
@@ -346,9 +369,16 @@ for line in Lines:
 	if line != "hlt" and line[0:3] != "var":
 		if line.count(":") == 1:
 			t1 = line.index(":")
-			dictLabel[line[:t1]] = count 
-			if line.index(":") + 1 == len(line):
-				count -= 1
+			t2 = checkName(line[:t1])
+			if(t2 == True):
+				dictLabel[line[:t1]] = count 
+				if line.index(":") + 1 == len(line):
+					count -= 1
+			else:
+				cou = allLines.index(line) + 1
+				err = "ERROR in line {}: Syntax error".format(cou)
+				print(err)
+				exit()
 		if line.count(":") > 1:
 			cou = allLines.index(line) + 1
 			err = "ERROR in line {}: Syntax error".format(cou)
