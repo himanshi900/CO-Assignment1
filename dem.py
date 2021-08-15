@@ -328,6 +328,8 @@ for line in Lines:
 		err = "ERROR in line {}: Variable not properly defined".format(cou)
 		print(err)
 		exit()
+
+allHalt = 0
 flag2 = False
 for line in Lines:
 	if("hlt" in line):
@@ -335,6 +337,7 @@ for line in Lines:
 		if(len(lst) == 1):
 			flag2 = True
 			indexHalt = Lines.index(line) - countVar
+			allHalt = allLines.index(line) + 1
 			break
 		elif len(lst) == 2 and lst[1] == "hlt" and lst[0][-1] == ":":
 			lst[0] = lst[0][:-1]
@@ -343,6 +346,7 @@ for line in Lines:
 				flag2 = True
 				dictLabel[lst[0]] = Lines.index(line) - countVar
 				indexHalt = Lines.index(line) - countVar
+				allHalt = allLines.index(line) + 1
 				break
 			else:
 				cou = allLines.index(line) + 1
@@ -362,8 +366,8 @@ if flag2 == False:
 	exit()
 
 elif flag2 == True and len(Lines) - countVar > indexHalt + 1:
-	cou = len(allLines)
-	err = "ERROR in line {}: hlt not being used as last instruction".format(cou)
+	cou = allHalt 
+	err = "ERROR in line {}: wrong declaration for hlt".format(cou)
 	print(err)
 	exit()
 """
