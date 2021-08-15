@@ -275,6 +275,11 @@ for line in stdin:
 		allLines.append(line)
 		Lines.append(line)
 
+if(len(Lines) > 256):
+	cou = 256
+	err = "ERROR in line {}: Variable not declared at the beginning".format(cou)
+	print(err)
+	exit()
 #print(Lines)
 
 count = 0
@@ -370,7 +375,7 @@ for line in Lines:
 		if line.count(":") == 1:
 			t1 = line.index(":")
 			t2 = checkName(line[:t1])
-			if(t2 == True):
+			if(t2 == True and line[:t1] not in dictLabel.keys() and listVar.count(line[:t1]) == 0):
 				dictLabel[line[:t1]] = count 
 				if line.index(":") + 1 == len(line):
 					count -= 1
