@@ -385,7 +385,7 @@ if(arr1[0][-1]==':' and arr1[-1]=='hlt' and arr1[1]=='hlt'):
 #print('hello') ###########################################################3
 
 if flag == False:
-	#Error message
+	#Erro
 	cou =  + 1
 	err = "ERROR in line {}: Variable not declared at the beginning".format(cou)
 	print(err)
