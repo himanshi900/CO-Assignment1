@@ -324,6 +324,48 @@ for line in Lines:
 		print(err)
 		exit()
 
+
+
+flag2 = False
+for line in Lines:
+	if("hlt" in line):
+		lst = line.split()
+		if(len(lst) == 1):
+			flag2 = True
+			indexHalt = Lines.index(line) - countVar
+			break
+		elif len(lst) == 2 and lst[1] == "hlt" and lst[0][-1] == ":":
+			lst[0] = lst[0][:-1]
+			t4 = checkName(lst[0])
+			if(t4 == True and lst[0] not in dictLabel.keys() and listVar.count(lst[0]) == 0):
+				flag2 = True
+				dictLabel[lst[0]] = Lines.index(line) - countVar
+				indexHalt = Lines.index(line) - countVar
+				break
+			else:
+				cou = allLines.index(line) + 1
+				err = "ERROR in line {}: Syntax error".format(cou)
+				print(err)
+				exit()
+		elif len(lst) == 2 and lst[1] == "hlt" and lst[0][-1] != ":":
+			cou = allLines.index(line) + 1
+			err = "ERROR in line {}: Syntax error".format(cou)
+			print(err)
+			exit()
+
+if flag2 == False:
+	cou = len(allLines)
+	err = "ERROR in line {}: Missing hlt instruction".format(cou)
+	print(err)
+	exit()
+
+elif flag2 == True and len(Lines) - countVar > indexHalt + 1:
+	cou = len(allLines)
+	err = "ERROR in line {}: hlt not being used as last instruction".format(cou)
+	print(err)
+	exit()
+
+"""
 count = 0
 arr1= Lines[-1]
 arr1=arr1.split()
@@ -336,14 +378,15 @@ if(arr1[0][-1]==':' and arr1[-1]=='hlt' and arr1[1]=='hlt'):
 	indexHalt = Lines.index(str1) - countVar
 	
 #print('hello') ###########################################################3
-"""
+
 if flag == False:
 	#Error message
 	cou =  + 1
 	err = "ERROR in line {}: Variable not declared at the beginning".format(cou)
 	print(err)
 	exit()
-"""
+
+
 
 if Lines.count("hlt") > 1 and flag1==False:
 	#print('0 or >1') ###########################################################
@@ -368,11 +411,12 @@ if len(Lines) - countVar > indexHalt + 1:
 	print(err)
 	exit()
 
+"""
 
 for line in Lines:
 	line = line.strip()
 	if line != "hlt" and line[0:3] != "var":
-		if line.count(":") == 1:
+		if line.count(":") == 1 and "hlt" not in line:
 			t1 = line.index(":")
 			t2 = checkName(line[:t1])
 			if(t2 == True and line[:t1] not in dictLabel.keys() and listVar.count(line[:t1]) == 0):
