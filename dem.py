@@ -282,7 +282,7 @@ for line in stdin:
 #print(Lines)
 if(len(Lines) > 256):
 	cou = 256
-	err = "ERROR in line {}: Variable not declared at the beginning".format(cou)
+	err = "ERROR in line {}: more than 256 instructions".format(cou)
 	print(err)
 	exit()
 
@@ -428,10 +428,18 @@ for line in Lines:
 				if line.index(":") + 1 == len(line):
 					count -= 1
 			else:
-				cou = allLines.index(line) + 1
-				err = "ERROR in line {}: Syntax error".format(cou)
-				print(err)
-				exit()
+				if(t2 == True and listVar.count(line[:t1]) == 0 and line[:t1] in dictLabel.keys()):
+					cou = allLines.index(line) + 1
+					err = "ERROR in line {}: multiple declaration ahead; declared more than once".format(cou)
+					print(err)
+					exit()
+				else:
+					cou = allLines.index(line) + 1
+					err = "ERROR in line {}: Syntax error".format(cou)
+					print(err)
+					exit()
+
+			
 		if line.count(":") > 1:
 			cou = allLines.index(line) + 1
 			err = "ERROR in line {}: Syntax error".format(cou)
