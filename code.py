@@ -29,7 +29,12 @@ def instruction_call(arr):
 	'jgt':'10001',
 	'je':'10010',
 	'hlt':'10011'}
-	if(arr[0]=="add" or arr[0]=="sub" or arr[0]=="mul" or arr[0]=="xor" or arr[0]=="or" or arr[0]=="and"):
+
+	listr=['R0','R1','R2','R3','R4','R5','R6']
+	
+    # register can only be one of given r0 to r6 and flags (only mov)..check condn
+	if((arr[0]=="add" or arr[0]=="sub" or arr[0]=="mul" or arr[0]=="xor" or arr[0]=="or" or arr[0]=="and" ) and len(arr)==4 and arr[1] in listr and arr[2] in listr and arr[3] in listr ):
+		
 		a = dic.get(arr[0])
 		b = encodeA(arr[1])
 		c = encodeA(arr[2])
@@ -43,8 +48,8 @@ def instruction_call(arr):
 			out=(a+"00"+b+c+d)
 			output.append(out)
 	
-	elif(arr[0]=="ls" or arr[0]=="rs" or (arr[0]=="mov" and arr[1][0]=='R' and  arr[2][0]=="$")):
-		#move imm in flags??
+	elif((arr[0]=="ls" or arr[0]=="rs" or (arr[0]=="mov" and len(arr)==3 and arr[1][0]=='R' and  arr[2][0]=="$")) and len(arr)==3 and arr[1] in listr and arr[2][0]=="$" ):
+		#m
 		a = dic.get(arr[0])
 		b = encodeA(arr[1])
 		c=arr[2]
@@ -61,16 +66,15 @@ def instruction_call(arr):
 			exit()
 		if(d<0 or d>255):
 			#clear()
-			err = "Invalid value {} ".format(cou)
+			err = "Invalid value line {} ".format(cou)
 			print(err)
 			exit()
 		else:
 			out=(a+b+p)
 			output.append(out)
 
-	elif(arr[0] == "mov" and arr[1][0]=="R" and arr[2][0]=="R"):
-		#print('here')
-		#instead check if arr[1][0] in dic1 of labels 
+	elif(arr[0] == "mov" and len(arr)==3 and arr[1][0]=="R" and arr[2][0]=="R" and arr[1] in listr and arr[2] in listr ):
+		 
 		#move r1 in flags?
 		a = dic.get("mov1")
 		b = encodeC(arr[1])
@@ -85,7 +89,7 @@ def instruction_call(arr):
 			out=(a+"00000"+b+c)
 			output.append(out)
 	
-	elif(arr[0] == "mov" and arr[1][0]=="R" and arr[2]=="FLAGS"):
+	elif(arr[0] == "mov" and len(arr)==3 and arr[1][0]=="R" and arr[2]=="FLAGS" and arr[1] in listr ):
 		a = dic.get("mov1")
 		b = encodeC(arr[1])
 		c = encodeC(arr[2])
@@ -98,7 +102,7 @@ def instruction_call(arr):
 			out=(a+"00000"+b+c)
 			output.append(out)
 	
-	elif (arr[0] == "div" or arr[0] == "not" or arr[0] == "cmp"):
+	elif ((arr[0] == "div" or arr[0] == "not" or arr[0] == "cmp") and len(arr)==3 and arr[1] in listr and arr[2] in listr):
 		
 
 		a = dic.get(arr[0])
@@ -113,7 +117,7 @@ def instruction_call(arr):
 			out=(a+"00000"+b+c)
 			output.append(out)
 	
-	elif (arr[0] == "ld" or arr[0] == "st"):
+	elif ((arr[0] == "ld" or arr[0] == "st") and len(arr)==3):  
 		a = dic.get(arr[0])
 		b = encodeA(arr[1])
 	#c=variable value
@@ -126,7 +130,7 @@ def instruction_call(arr):
 		out=(a+b+c)
 		output.append(out)
 
-	elif (arr[0] == "je" or arr[0] == "jlt" or arr[0]=="jmp" or arr[0]=="jgt"):
+	elif ((arr[0] == "je" or arr[0] == "jlt" or arr[0]=="jmp" or arr[0]=="jgt") and len(arr)==2 and arr[1] in dictLabel):
 		
 		a=dic.get(arr[0])
 		b=dictLabel.get(arr[1])
@@ -146,7 +150,7 @@ def instruction_call(arr):
 			output.append(out)
 
 
-	elif(arr[0]=="hlt"):
+	elif(arr[0]=="hlt" and len(arr)==1):
 		a = dic.get(arr[0])
 		out=(a + "00000000000")
 		output.append(out)
@@ -155,14 +159,10 @@ def instruction_call(arr):
 		arr.pop(0)
 		instruction_call(arr)
 		
-
-	
-
 	else:
 		err = "Syntax error in line {} ".format(cou)
 		print(err)
 		exit()
-
 
 
 def bnr(a):
@@ -325,7 +325,7 @@ for line in Lines:
 		exit()
 
 
-
+allHalt = 0
 flag2 = False
 for line in Lines:
 	if("hlt" in line):
@@ -333,6 +333,7 @@ for line in Lines:
 		if(len(lst) == 1):
 			flag2 = True
 			indexHalt = Lines.index(line) - countVar
+			allHalt = allLines.index(line) + 1
 			break
 		elif len(lst) == 2 and lst[1] == "hlt" and lst[0][-1] == ":":
 			lst[0] = lst[0][:-1]
@@ -341,6 +342,7 @@ for line in Lines:
 				flag2 = True
 				dictLabel[lst[0]] = Lines.index(line) - countVar
 				indexHalt = Lines.index(line) - countVar
+				allHalt = allLines.index(line) + 1
 				break
 			else:
 				cou = allLines.index(line) + 1
@@ -360,7 +362,7 @@ if flag2 == False:
 	exit()
 
 elif flag2 == True and len(Lines) - countVar > indexHalt + 1:
-	cou = len(allLines)
+	cou = allHalt + 1
 	err = "ERROR in line {}: hlt not being used as last instruction".format(cou)
 	print(err)
 	exit()
@@ -379,12 +381,6 @@ if(arr1[0][-1]==':' and arr1[-1]=='hlt' and arr1[1]=='hlt'):
 	
 #print('hello') ###########################################################3
 
-if flag == False:
-	#Error message
-	cou =  + 1
-	err = "ERROR in line {}: Variable not declared at the beginning".format(cou)
-	print(err)
-	exit()
 
 
 
