@@ -362,7 +362,7 @@ if flag2 == False:
 	exit()
 
 elif flag2 == True and len(Lines) - countVar > indexHalt + 1:
-	cou = allHalt + 1
+	cou = allHalt
 	err = "ERROR in line {}: hlt not being used as last instruction".format(cou)
 	print(err)
 	exit()
