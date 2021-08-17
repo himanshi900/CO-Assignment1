@@ -62,7 +62,7 @@ def execute(Instruction, RF):
             s= str(bin(d))
             val = s[2:].zfill(16)
             RF[a] = val
-            
+       
     if (Instruction[0:5] == "00010" or Instruction[0:5] == "01000" or Instruction[0:5] == "01001"):
         a = int(Instruction[5:8], 2)
         b = int(Instruction[8:], 2)
@@ -81,6 +81,15 @@ def execute(Instruction, RF):
             finVal = intVal << b
             finVal = (bin(finVal)[2:]).zfill(16)
             RF[a] = finVal
+            
+    if (Instruction[0:5]=="00100" or Instruction[0:5]=="00101" ):     
+        a=int(Instruction[5:8] ,2)
+        b=int(Instruction[8:], 2)
+        if(Instruction[0:5]=="00100"): 
+            RF[a]= MEM[b]
+
+        if(Instruction[0:5]=="00101"):
+            MEM[b]=RF[a]
     
    
       
