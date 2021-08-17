@@ -162,6 +162,8 @@ def execute(Instruction, RF, MEM, PC):
         if(Instruction[0:5]=="00101"):
             MEM[b]=RF[a]
             return False, PC + 1
+    #Type E
+    if(Instruction[0:5]=="01111" or Instruction[0:5]=="10000" or  Instruction[0:5]=="10001" or Instruction[0:5]=="10010"):
 
 
     #Type F
