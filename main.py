@@ -12,7 +12,7 @@ def initialise(MEM):
             i+=1
 
 def getInstruction(PC, MEM):
-    return MEM[pc]
+    return MEM[PC]
 
 def main():
     MEM = ["0000000000000000"]*256
