@@ -22,11 +22,23 @@ def main():
     halted = False
 
 def execute(Instruction, RF):
+     if(Instruction[0:5]=="00000" and Instruction[0:5]=="00001" and Instruction[0:5]=="000110" and Instruction[0:5]=="001010" and Instruction[0:5]== "001011" and Instruction[0:5]=="01100"):
+        a=int(Instruction[7:10] , 2) 
+        b =int(Instruction[10:13] , 2) 
+        c= int(Instruction[13:16], 2)
+        if(Instruction[0:5]=="00000"):
+            d= b+c
+            s= str(bin(d))
+            val = s.zfill(8)
+            RF[a] = val
     if (Instruction[0:5] == "00010" or Instruction[0:5] == "01000" or Instruction[0:5] == "01001"):
         a = int(Instruction[5:8], 2)
         b = int(Instruction[8:], 2)
         if (Instruction[0:5] == "00010"):
             val = Instruction[8:].zfill(16)
             RF[a] = val
+            
+   
+      
 
 
