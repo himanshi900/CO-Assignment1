@@ -164,5 +164,9 @@ def execute(Instruction, RF, MEM, PC):
             return False, PC + 1
 
 
+    #Type F
+    if (Instruction[0:5] == "10011"):
+        return True, PC + 1
+
 
 
