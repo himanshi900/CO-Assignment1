@@ -48,30 +48,30 @@ def execute(Instruction, RF, MEM, PC):
         #overflow
 
         if(Instruction[0:5]=="00001"):
-            d= int(int(RF[b]),2) - int(int(RF[c]),2)
+            d= int(RF[b],2) - int(RF[c],2)
             s= str(bin(d))
             val = s[2:].zfill(16)
             RF[a] = val              #-ve subtraction
 
         if(Instruction[0:5]=="000110"):
-            d= int(int(RF[b]),2) * int(int(RF[c]),2) #overflow
+            d= int(RF[b],2) * int(RF[c],2) #overflow
             s= str(bin(d))
             val = s[2:].zfill(16)
             RF[a] = val 
         if(Instruction[0:5]=="001010"):    # xor
-            d= int(int(RF[b]),2) ^ int(int(RF[c]),2) #overflow
+            d= int(RF[b],2) ^ int(RF[c],2) #overflow
             s= str(bin(d))
             val = s[2:].zfill(16)
             RF[a] = val
 
         if(Instruction[0:5]=="001100"):   # and 
-            d= int(int(RF[b]),2) & int(int(RF[c]),2) #overflow
+            d= int(RF[b],2) & int(RF[c],2) #overflow
             s= str(bin(d))
             val = s[2:].zfill(16)
             RF[a] = val
         
         if(Instruction[0:5]=="001011"): # or
-            d= int(int(RF[b]),2) | int(int(RF[c]),2) #overflow
+            d= int(RF[b],2) | int(RF[c],2) #overflow
             s= str(bin(d))
             val = s[2:].zfill(16)
             RF[a] = val
