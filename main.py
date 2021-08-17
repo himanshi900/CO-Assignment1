@@ -31,13 +31,26 @@ def execute(Instruction, RF):
             s= str(bin(d))
             val = s.zfill(8)
             RF[a] = val
+            
     if (Instruction[0:5] == "00010" or Instruction[0:5] == "01000" or Instruction[0:5] == "01001"):
         a = int(Instruction[5:8], 2)
         b = int(Instruction[8:], 2)
         if (Instruction[0:5] == "00010"):
             val = Instruction[8:].zfill(16)
             RF[a] = val
-            
+        elif(Instruction[0:5] == "01000"):
+            val = RF[a]
+            intVal = int(val, 2)
+            finVal = intVal >> b
+            finVal = (bin(finVal)[2:]).zfill(16)
+            RF[a] = finVal
+        elif(Instruction[0:5] == "01001"):
+            val = RF[a]
+            intVal = int(val, 2)
+            finVal = intVal << b
+            finVal = (bin(finVal)[2:]).zfill(16)
+            RF[a] = finVal
+    
    
       
 
