@@ -27,7 +27,7 @@ def execute(Instruction, RF):
         b =int(Instruction[10:13] , 2) 
         c= int(Instruction[13:16], 2)
         if(Instruction[0:5]=="00000"):
-            d= b+c
+            d= int(int(RF[b]),2) + int(int(RF[c]),2)
             s= str(bin(d))
             val = s.zfill(8)
             RF[a] = val
