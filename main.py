@@ -166,6 +166,7 @@ def execute(Instruction, RF, MEM, PC):
 
     #Type F
     if (Instruction[0:5] == "10011"):
+        flagReset(RF)
         return True, PC + 1
 
 
