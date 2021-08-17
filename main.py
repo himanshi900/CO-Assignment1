@@ -12,8 +12,6 @@ def initialise(MEM):
             i+=1
 
 def getInstruction(PC, MEM):
-    pc = "0b" + PC
-    pc = int(pc)
     return MEM[pc]
 
 def main():
