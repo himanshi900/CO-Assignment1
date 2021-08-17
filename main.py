@@ -23,6 +23,14 @@ def main():
     PC = 0
     initialise(MEM)
     halted = False
+    while(not halted):
+        Instruction = getInstruction(PC, MEM) # Get current instruction
+        halted, new_PC = execute(Instruction, RF, MEM, PC) # Update RF compute new_PC
+        #PC.dump(); // Print PC
+        #RF.dump(); // Print RF state
+        #PC.update(new_PC); // Update PC
+    #MEM.dump()
+
 
 def execute(Instruction, RF, MEM, PC):
 
