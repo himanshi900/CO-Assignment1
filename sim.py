@@ -70,7 +70,7 @@ def execute(Instruction, RF, MEM, PC):
                 return False, PC + 1
 
         if(Instruction[0:5]=="00110"):
-            d= int(RF[b],2) * int(RF[c],2) #overflow
+            d= int(RF[b],2) * int(RF[c],2) #overflow check
             if(d>65535):
                 RF[7] == "0000000000001000"
                 s= str(bin(d))[2:]
