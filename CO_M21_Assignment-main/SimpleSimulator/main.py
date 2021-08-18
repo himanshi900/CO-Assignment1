@@ -2,7 +2,7 @@ import sys
 import os
 from sys import stdin
 
-def initialise(MEM):
+def initialise(MEM):   //initializing the function
     i = 0
     for line in stdin:
         if line == '':
