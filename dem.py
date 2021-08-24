@@ -91,7 +91,7 @@ def instruction_call(arr):
 	
 	elif(arr[0] == "mov" and len(arr)==3 and arr[1][0]=="R" and arr[2]=="FLAGS" and arr[1] in listr ):
 		a = dic.get("mov1")
-		b = encodeC(arr[1])
+		b = encodeA(arr[1])
 		c = encodeC(arr[2])
 		if(b=='-1' or c=='-1'):
 			#clear()
@@ -370,8 +370,11 @@ elif flag2 == True and len(Lines) - countVar > indexHalt + 1:
 	err = "ERROR in line {}: wrong declaration for hlt".format(cou)
 	print(err)
 	exit()
-"""
+
 count = 0
+
+"""
+
 arr1= Lines[-1]
 arr1=arr1.split()
 flag1=False
